@@ -1,0 +1,17 @@
+version: "3"
+services:
+ ecos:
+  image: ${REGISTRY_TAG}
+  container_name: ecos-registry
+  hostname: ${REGISTRY_HOST}
+  expose:
+   - "8761/tcp"
+  volumes:
+   - "./configs/ecos-registry/:/central-config/"
+  healthcheck:
+   test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8761/management/health"]
+   erval: 20s
+   timeout: 20s
+   retries: 36
+  stop_grace_period: 1m
+  restart: always

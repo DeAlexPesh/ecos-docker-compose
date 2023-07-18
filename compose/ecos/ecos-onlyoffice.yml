@@ -1,0 +1,16 @@
+version: "3"
+services:
+ ecos:
+  image: ${ONLYOFFICE_TAG}
+  container_name: ecos-onlyoffice
+  hostname: ${ONLYOFFICE_HOST}
+  expose:
+   - "80/tcp"
+   - "443/tcp"
+  volumes:
+   - "${ECOS_SRC_PATH}/onlyoffice/data:/var/www/onlyoffice/Data"
+   - "${ECOS_SRC_PATH}/onlyoffice/log:/var/log/onlyoffice"
+   - "${ECOS_SRC_PATH}/onlyoffice/fonts:/usr/share/fonts/truetype/custom"
+   - "${ECOS_SRC_PATH}/onlyoffice/forgotten:/var/lib/onlyoffice/documentserver/App_Data/cache/files/forgotten"
+  stop_grace_period: 1m
+  restart: always

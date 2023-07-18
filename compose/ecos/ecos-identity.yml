@@ -1,0 +1,13 @@
+version: "3"
+services:
+ ecos:
+  image: ${IDENTITY_TAG}
+  container_name: ecos-identity
+  hostname: ${IDENTITY_HOST}
+  expose:
+   - "8080/tcp"
+   - "8443/tcp"
+  volumes:
+   - "./configs/ecos-identity/:/import/"
+  stop_grace_period: 1m
+  restart: always

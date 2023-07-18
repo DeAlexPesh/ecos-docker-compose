@@ -1,0 +1,10 @@
+version: "3"
+services:
+ ecos:
+  image: ${PROXY_TAG}
+  container_name: ecos-proxy
+  hostname: ${PROXY_HOST}
+  ports:
+   - "80:80/tcp"
+  stop_grace_period: 1m
+  restart: always

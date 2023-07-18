@@ -1,0 +1,10 @@
+version: "3"
+services:
+ ecos:
+  image: ${ECOM_TAG}
+  container_name: ecos-ecom
+  hostname: ${ECOM_HOST}
+  expose:
+   - "8097/tcp"
+  stop_grace_period: 1m
+  restart: always

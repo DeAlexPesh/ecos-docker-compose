@@ -1,0 +1,19 @@
+spring:
+  mail:
+    host: mailhog-app
+    port: 1025
+  datasource:
+    url: jdbc:postgresql://ecos-microservices-postgresql-app:5432/ecos_notifications
+    username: notifications
+    password: ec0spa55wd
+ecos-notifications:
+  alfresco:
+    url: https://ecos-community-demo
+    authentication:
+      username: notifications_micro
+      password: ec0spa55wd
+  event:
+    host: rabbitmq-app
+    port: 5672
+    username: rabbitmqadmin
+    password: ec0spa55wd

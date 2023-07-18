@@ -1,0 +1,10 @@
+version: "3"
+services:
+ ecos:
+  image: ${SERVICE_DESK_TAG}
+  container_name: ecos-service-desk
+  hostname: ${SERVICE_DESK_HOST}
+  expose:
+   - "8099/tcp"
+  stop_grace_period: 1m
+  restart: always

@@ -1,0 +1,63 @@
+version: "3"
+services:
+ ecos:
+  image: ${APPS_TAG}
+  container_name: ecos-apps
+  hostname: ${APPS_HOST}
+  expose:
+   - "8089/tcp"
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:/run/ecos-artifacts/app/ecosapp"
+  healthcheck:
+   test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8089/management/health"]
+   interval: 20s
+   timeout: 20s
+   retries: 36
+  stop_grace_period: 1m
+  restart: always
+
+ # ---------------
+ # run and exiting
+ # ---------------
+
+ ecos-order-pass:
+  image: ${ORDER_PASS_TAG}
+  container_name: ecos-order-pass
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:${ECOS_APPS_TARGET_DIR}"
+
+ ecos-meetings:
+  image: ${MEETINGS_TAG}
+  container_name: ecos-meetings
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:${ECOS_APPS_TARGET_DIR}"
+
+ ecos-common-data-list:
+  image: ${COMMON_DATA_LIST_TAG}
+  container_name: ecos-common-data-list
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:${ECOS_APPS_TARGET_DIR}"
+
+ ecos-assignments:
+  image: ${ASSIGNMENTS_TAG}
+  container_name: ecos-assignments
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:${ECOS_APPS_TARGET_DIR}"
+   
+ ecos-time-tracking:
+  image: ${TIME_TRACKING_TAG}
+  container_name: ecos-time-tracking
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:${ECOS_APPS_TARGET_DIR}"
+      
+ ecos-offers:
+  image: ${OFFERS_TAG}
+  container_name: ecos-offers
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:${ECOS_APPS_TARGET_DIR}"
+      
+ ecos-crm:
+  image: ${CRM_TAG}
+  container_name: ecos-crm
+  volumes:
+   - "${ECOS_SRC_PATH}/apps:${ECOS_APPS_TARGET_DIR}"

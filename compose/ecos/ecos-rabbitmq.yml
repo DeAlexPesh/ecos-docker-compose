@@ -1,0 +1,19 @@
+version: "3"
+services:
+ ecos:
+  image: ${RABBITMQ_TAG}
+  container_name: ecos-rabbitmq
+  hostname: ${RABBITMQ_HOST}
+  expose:
+   - "15672/tcp"
+   - "15692/tcp"
+  volumes:
+   - "${ECOS_SRC_PATH}/rabbitmq:/var/lib/rabbitmq"
+  healthcheck:
+   test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+   interval: 30s
+   timeout: 30s
+   retries: 6
+  command: ["/init.sh"]
+  stop_grace_period: 1m
+  restart: always

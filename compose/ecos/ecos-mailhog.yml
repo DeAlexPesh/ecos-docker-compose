@@ -1,0 +1,10 @@
+version: "3"
+services:
+ ecos:
+  image: ${MAILHOG_TAG}
+  container_name: ecos-mailhog
+  hostname: ${MAILHOG_HOST}
+  expose:
+   - "1025/tcp"
+  stop_grace_period: 1m
+  restart: always

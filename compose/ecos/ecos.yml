@@ -1,0 +1,287 @@
+version: "3"
+name: ecos
+
+networks:
+ ecos:
+  driver: bridge
+  name: ecos
+
+x-network-depend: &network-depend
+ networks:
+  - ecos
+
+x-network-none-depend: &network-none-depend
+ network_mode: none
+
+x-logs-depend: &logs-depend
+ logging:
+  driver: "json-file"
+  options:
+   max-size: "200k"
+   max-file: "5"
+
+x-logs-none-depend: &logs-none-depend
+ logging:
+  driver: none
+
+services:
+ ecos-onlyoffice:
+  extends:
+   file: ./ecos-onlyoffice.yml
+   service: ecos
+  <<: [ *network-depend, *logs-depend ]
+
+ ecos-registry:
+  extends:
+   file: ./ecos-registry.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-registry.env
+  <<: [ *network-depend, *logs-depend ]
+
+ ecos-proxy:
+  extends:
+   file: ./ecos-proxy.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-proxy.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-gateway:
+    condition: service_healthy
+
+ ecos-zookeeper:
+  extends:
+   file: ./ecos-zookeeper.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-zookeeper.env
+  <<: [ *network-depend, *logs-depend ]
+
+ ecos-mailhog:
+  extends:
+   file: ./ecos-mailhog.yml
+   service: ecos
+  <<: [ *network-depend, *logs-depend ]
+
+ ecos-rabbitmq:
+  extends:
+   file: ./ecos-rabbitmq.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-rabbitmq.env
+  <<: [ *network-depend, *logs-depend ]
+
+ ecos-identity:
+  extends:
+   file: ./ecos-identity.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-identity.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-microservices-postgresql:
+    condition: service_healthy
+
+ ecos-process:
+  extends:
+   file: ./ecos-process.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-process.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-mongodb:
+    condition: service_healthy
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-mongodb:
+  extends:
+   file: ./ecos-mongodb.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-mongodb.env
+  <<: [ *network-depend, *logs-depend ]
+
+ ecos-model:
+  extends:
+   file: ./ecos-model.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-model.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-microservices-postgresql:
+    condition: service_healthy
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-order-pass:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos-order-pass
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-none-depend, *logs-none-depend ]
+
+ ecos-meetings:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos-meetings
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-none-depend, *logs-none-depend ]
+
+ ecos-common-data-list:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos-common-data-list
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-none-depend, *logs-none-depend ]
+
+ ecos-assignments:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos-assignments
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-none-depend, *logs-none-depend ]
+
+ ecos-crm:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos-crm
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-none-depend, *logs-none-depend ]
+
+ ecos-offers:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos-offers
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-none-depend, *logs-none-depend ]
+
+ ecos-time-tracking:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos-time-tracking
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-none-depend, *logs-none-depend ]
+
+ ecos-apps:
+  extends:
+   file: ./ecos-apps.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-apps.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-microservices-postgresql:
+    condition: service_healthy
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-gateway:
+  extends:
+   file: ./ecos-gateway.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-gateway.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-microservices-postgresql:
+    condition: service_healthy
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-uiserv:
+  extends:
+   file: ./ecos-uiserv.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-uiserv.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-microservices-postgresql:
+    condition: service_healthy
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-history:
+  extends:
+   file: ./ecos-history.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-history.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-microservices-postgresql:
+    condition: service_healthy
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-microservices-postgresql:
+  extends:
+   file: ./ecos-microservices-postgresql.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-microservices-postgresql.env
+  <<: [ *network-depend, *logs-depend ]
+
+ ecos-notifications:
+  extends:
+   file: ./ecos-notifications.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-notifications.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-microservices-postgresql:
+    condition: service_healthy
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-ecom:
+  extends:
+   file: ./ecos-ecom.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-ecom.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy
+
+ ecos-service-desk:
+  extends:
+   file: ./ecos-service-desk.yml
+   service: ecos
+  env_file:
+   - ./env/ecos-service-desk.env
+  <<: [ *network-depend, *logs-depend ]
+  depends_on:
+   ecos-registry:
+    condition: service_healthy
+   ecos-rabbitmq:
+    condition: service_healthy

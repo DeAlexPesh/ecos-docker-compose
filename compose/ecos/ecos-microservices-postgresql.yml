@@ -1,0 +1,18 @@
+version: "3"
+services:
+ ecos:
+  image: ${POSTGRESQL_TAG}
+  container_name: ecos-microservices-postgresql
+  hostname: ${POSTGRESQL_HOST}
+  expose:
+   - "5432/tcp"
+  volumes:
+   - "${ECOS_SRC_PATH}/micro-postgresql/data:/var/lib/postgresql/data"
+  healthcheck:
+   test: ["CMD-SHELL", "pg_isready -U postgres"]
+   interval: 10s
+   timeout: 5s
+   retries: 5
+  command: ["postgres", "-c", "config_file=/var/lib/postgresql/conf/postgresql.conf"]
+  stop_grace_period: 1m
+  restart: always

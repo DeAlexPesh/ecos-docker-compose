@@ -1,0 +1,13 @@
+version: "3"
+services:
+ ecos:
+  image: ${ZOOKEEPER_TAG}
+  container_name: ecos-zookeeper
+  hostname: ${ZOOKEEPER_HOST}
+  expose:
+   - "2181/tcp"
+  volumes:
+   - "${ECOS_SRC_PATH}/zookeeper/data:/data"
+   - "${ECOS_SRC_PATH}/zookeeper/datalog:/datalog"
+  stop_grace_period: 1m
+  restart: always
