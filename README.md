@@ -2,7 +2,7 @@
 
 Clone repo in need folder (this "/app"):
 ```
-git clone https://github.com/DeAlexPesh/totum-docker-compose.git /app
+git clone https://github.com/DeAlexPesh/ecos-docker-compose.git /app
 ```
 ```
 sudo mkdir -p /app/ecos
