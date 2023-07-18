@@ -32,6 +32,7 @@ sed -i '1 i\127.0.0.1 ecos-community-demo' /etc/hosts
 ```
 ```
 http://ecos-community-demo
+admin | admin
 ```
 
 ```
