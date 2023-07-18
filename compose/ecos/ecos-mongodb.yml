@@ -8,6 +8,7 @@ services:
    - "27017/tcp"
   volumes:
    - "${ECOS_SRC_PATH}/mongodb/db:/data/db"
+   - "${ECOS_SRC_PATH}/mongodb/configdb:/data/configdb"
   healthcheck:
    test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
    interval: 20s

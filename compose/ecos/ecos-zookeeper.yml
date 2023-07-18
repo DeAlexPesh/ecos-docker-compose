@@ -9,5 +9,6 @@ services:
   volumes:
    - "${ECOS_SRC_PATH}/zookeeper/data:/data"
    - "${ECOS_SRC_PATH}/zookeeper/datalog:/datalog"
+   	/logs
   stop_grace_period: 1m
   restart: always
