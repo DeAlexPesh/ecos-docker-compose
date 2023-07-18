@@ -10,6 +10,10 @@ sudo mkdir -p /app/ecos
 
 Edit files with params: /app/compose/ecos/.env
 ```
+mv /app/compose/ecos/ecos.env /app/compose/ecos/.env && \
+nano /app/compose/ecos/.env
+```
+```
 ...
 PROXY_HOST=ecos-community-demo   # domain name
 ...
