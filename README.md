@@ -2,16 +2,13 @@
 
 Clone repo in need folder (this "/app"):
 ```
-mkdir /app && \
+mkdir /app/ecos
 git clone https://github.com/DeAlexPesh/ecos-docker-compose.git /app
-```
-```
-sudo mkdir -p /app/ecos
 ```
 
 Edit files with params: /app/compose/ecos/.env
 ```
-mv /app/compose/ecos/ecos.env /app/compose/ecos/.env && \
+mv /app/compose/ecos/ecos.env /app/compose/ecos/.env
 nano /app/compose/ecos/.env
 ```
 ```
