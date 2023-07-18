@@ -26,5 +26,17 @@ docker-compose -f /app/compose/ecos/ecos.yml pull
 ## Run apps
 docker-compose -f /app/compose/ecos/ecos.yml up -d
 
-## Kill the DJ
+## Testing domain host bind (on machine with client browser)
+```
+sed -i '1 i\127.0.0.1 ecos-community-demo' /etc/hosts
+```
+```
+http://ecos-community-demo
+```
+
+```
+* 4Gb RAM is low for this monster...
+```
+
+## Kill the Developer...
 docker-compose -f /app/compose/ecos/ecos.yml down
