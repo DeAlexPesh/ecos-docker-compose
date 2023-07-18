@@ -2,6 +2,7 @@
 
 Clone repo in need folder (this "/app"):
 ```
+mkdir /app && \
 git clone https://github.com/DeAlexPesh/ecos-docker-compose.git /app
 ```
 ```
